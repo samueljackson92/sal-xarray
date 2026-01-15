@@ -1,0 +1,71 @@
+[project]
+name = "sal-xarray"
+version = "0.1.0"
+description = "SAL backend for xarray"
+readme = "README.md"
+requires-python = ">=3.11, <3.13"
+authors = [
+    {name = "Samuel Jackson", email = "samuel.jackson@ukaea.uk"},
+]
+maintainers = [
+    {name = "Samuel Jackson", email = "samuel.jackson@ukaea.uk"},
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+]
+
+dependencies = [
+    "numpy<2",
+    "sal>=1.2.5",
+    "xarray>=2025.12.0",
+]
+
+[tool.setuptools]
+packages = ["sal_xarray"]
+
+[project.urls]
+repository = "https://github.com/samueljackson92/sal-xarray"
+
+[tool.ruff]
+exclude = []
+
+[dependency-groups]
+dev = [
+    "bump-my-version>=1.2.5",
+    "pylint>=4.0.4",
+    "pytest>=8.4.1",
+    "pytest-mock>=3.15.1",
+    "ruff>=0.14.10",
+    "ty>=0.0.12",
+]
+
+[project.entry-points."xarray.backends"]
+sal = "sal_xarray.main:SALBackendEntrypoint"
+
+[tool.bumpversion]
+current_version = "0.1.0"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+ignore_missing_files = false
+tag = true
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+commit_args = ""
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'

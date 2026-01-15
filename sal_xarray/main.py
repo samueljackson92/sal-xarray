@@ -100,7 +100,8 @@ class SALBackendEntrypoint(BackendEntrypoint):
         return data
 
     def open_datatree(self, filename_or_obj, *, drop_variables=None):
-        self.open_dataset(filename_or_obj, drop_variables=drop_variables)
+        dataset = self.open_dataset(filename_or_obj, drop_variables=drop_variables)
+        return xr.DataTree(dataset)
 
     def open_groups_as_dict(self, filename_or_obj, **kwargs):
         """Open groups as a dictionary (not supported for SAL backend)."""

@@ -181,6 +181,45 @@ class TestSALBackendEntrypoint:
             ds = backend.open_dataset(f"sal://pulse/{shot_num}/signal_name")
             assert ds["data"].attrs["shot_id"] == shot_num
 
+    def test_open_datatree(self, mock_sal_client, mock_signal):
+        """Test opening a datatree with the SAL backend."""
+        backend = SALBackendEntrypoint()
+        dt = backend.open_datatree("sal://pulse/12345/signal_name")
+
+        # Check that a DataTree was created
+        assert isinstance(dt, xr.DataTree)
+
+        # Check that dataset is at root
+        assert "/" in dt.groups
+        ds = dt["/"].ds
+
+        # Check dataset contents
+        assert isinstance(ds, xr.Dataset)
+        assert "data" in ds.data_vars
+        assert "status" in ds.data_vars
+
+        # Check dimensions
+        assert "time" in ds.dims
+        assert ds.sizes["time"] == 5
+
+        # Check data values
+        np.testing.assert_array_equal(ds["data"].values, mock_signal.data)
+
+    def test_open_datatree_with_drop_variables(self, mock_sal_client):
+        """Test opening a datatree with drop_variables parameter."""
+        backend = SALBackendEntrypoint()
+        dt = backend.open_datatree(
+            "sal://pulse/12345/signal_name", drop_variables="status"
+        )
+
+        # Check that DataTree was created
+        assert isinstance(dt, xr.DataTree)
+
+        # The drop_variables parameter is passed through but not implemented
+        # in the current backend, so this just verifies it doesn't error
+        ds = dt["/"].ds
+        assert isinstance(ds, xr.Dataset)
+
 
 class TestXarrayIntegration:
     """Test integration with xarray's open_dataset function."""
@@ -191,6 +230,19 @@ class TestXarrayIntegration:
         # In practice, this happens via entry_points in pyproject.toml
         ds = xr.open_dataset("sal://pulse/12345/signal_name", engine="sal")
 
+        assert isinstance(ds, xr.Dataset)
+        assert "data" in ds.data_vars
+        assert "status" in ds.data_vars
+
+    def test_xr_open_datatree_with_engine(self, mock_sal_client):
+        """Test using xr.open_datatree with engine='sal'."""
+        # This test requires the backend to be registered
+        # In practice, this happens via entry_points in pyproject.toml
+        dt = xr.open_datatree("sal://pulse/12345/signal_name", engine="sal")
+
+        assert isinstance(dt, xr.DataTree)
+        assert "/" in dt.groups
+        ds = dt["/"].ds
         assert isinstance(ds, xr.Dataset)
         assert "data" in ds.data_vars
         assert "status" in ds.data_vars

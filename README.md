@@ -9,7 +9,7 @@ sal-xarray provides a backend plugin for xarray that allows you to access SAL da
 
 - **xarray Integration**: Access SAL data using xarray's `open_dataset` function
 - **Automatic Conversion**: Converts SAL signals to xarray DataArrays with proper coordinates and metadata
-- **Error Handling**: Includes error data alongside signal data
+- **Status Mask Handling**: Includes status mask data alongside signal data
 - **URI-based Access**: Simple URI scheme (`sal://pulse/<shot_number>/<signal_name>`) for accessing data
 
 ## Installation 

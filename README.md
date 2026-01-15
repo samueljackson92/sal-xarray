@@ -24,6 +24,14 @@ Or using `uv`:
 uv pip install sal-xarray
 ```
 
+JET data access requires a VPN connection to the JDC. You will also require a config file at `~/.sal/credentials` with the following content:
+
+```toml
+[https://sal.jetdata.eu]
+user=<user-name>
+password=<password>
+```
+
 ## Usage
 
 Open a SAL dataset using xarray:

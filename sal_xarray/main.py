@@ -27,6 +27,7 @@ class SALBackendEntrypoint(BackendEntrypoint):
         *,
         drop_variables: str | Iterable[str] | None = None,
         host: str = "https://sal.jetdata.eu",
+        **kwargs,
     ) -> xr.Dataset:
         """Open a SAL dataset given a signal name and shot number.
 
@@ -99,7 +100,7 @@ class SALBackendEntrypoint(BackendEntrypoint):
 
         return data
 
-    def open_datatree(self, filename_or_obj, *, drop_variables=None):
+    def open_datatree(self, filename_or_obj, *, drop_variables=None, **kwargs):
         dataset = self.open_dataset(filename_or_obj, drop_variables=drop_variables)
         return xr.DataTree(dataset)
 

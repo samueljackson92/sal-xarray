@@ -3,7 +3,7 @@ name = "sal-xarray"
 version = "0.2.2"
 description = "SAL backend for xarray"
 readme = "README.md"
-requires-python = ">=3.9, <3.13"
+requires-python = ">=3.10, <3.14"
 authors = [
     {name = "Samuel Jackson", email = "samuel.jackson@ukaea.uk"},
 ]
@@ -14,13 +14,15 @@ maintainers = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "License :: OSI Approved :: MIT License",
 ]
 
 dependencies = [
-    "numpy<2",
+    "numpy<2.3",
     "sal>=1.2.5",
     "xarray",
 ]
